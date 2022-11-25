@@ -1,12 +1,26 @@
 package file
 
 import (
-	"fmt"
 	"html/template"
 	"io"
 	"net/http"
 	"os"
 )
+
+func Append(path, content string) error {
+	f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	_, err = f.WriteString(content)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 
 func Delete(path string) error {
 	return os.Remove(path)
@@ -47,6 +61,5 @@ func Template(path, content string, vars any) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(vars)
 	return t.Execute(file, vars)
 }
