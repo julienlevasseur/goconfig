@@ -1,6 +1,8 @@
 package file
 
 import (
+	"fmt"
+	"html/template"
 	"io"
 	"net/http"
 	"os"
@@ -29,4 +31,22 @@ func Download(URL, fileDest string) error {
 	}
 
 	return nil
+}
+
+func New(path string) error {
+	_, err := os.Create(path)
+	return err
+}
+
+func Template(path, content string, vars any) error {
+	t, err := template.New(path).Parse(content)
+	if err != nil {
+		return err
+	}
+	file, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	fmt.Println(vars)
+	return t.Execute(file, vars)
 }
