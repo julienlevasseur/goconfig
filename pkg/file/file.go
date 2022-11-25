@@ -3,8 +3,10 @@ package file
 import (
 	"html/template"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 )
 
 func Append(path, content string) error {
@@ -47,9 +49,64 @@ func Download(URL, fileDest string) error {
 	return nil
 }
 
+func Exists(path string) (bool, error) {
+	_, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		return false, nil
+	} else {
+		return true, nil
+	}
+}
+
+func LineIsPresent(path, match string) (bool, error) {
+	fileExists, err := Exists(path)
+	if err != nil {
+		return false, err
+	}
+	if fileExists {
+		f, err := ioutil.ReadFile(path)
+		if err != nil {
+			return false, err
+		}
+
+		lines := strings.Split(string(f), "\n")
+
+		for _, line := range lines {
+			if strings.Contains(line, match) {
+				return true, nil
+			}
+		}
+	}
+
+	return false, nil
+}
+
 func New(path string) error {
 	_, err := os.Create(path)
 	return err
+}
+
+func ReplaceLine(path, match, content string) error {
+	f, err := ioutil.ReadFile(path)
+	if err != nil {
+		return err
+	}
+
+	lines := strings.Split(string(f), "\n")
+
+	for i, line := range lines {
+		if strings.Contains(line, match) {
+			lines[i] = content
+		}
+	}
+
+	out := strings.Join(lines, "\n")
+	err = ioutil.WriteFile(path, []byte(out), 0644)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func Template(path, content string, vars any) error {
