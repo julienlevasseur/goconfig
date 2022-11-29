@@ -1,6 +1,7 @@
 package file
 
 import (
+	"fmt"
 	"html/template"
 	"io"
 	"io/ioutil"
@@ -110,6 +111,7 @@ func ReplaceLine(path, match, content string) error {
 }
 
 func Template(target, content string, vars any) error {
+	fmt.Println("[File][Template] create template ", target)
 	t, err := template.New(target).Parse(content)
 	if err != nil {
 		return err
