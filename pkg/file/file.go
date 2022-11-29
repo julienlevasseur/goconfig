@@ -109,12 +109,12 @@ func ReplaceLine(path, match, content string) error {
 	return nil
 }
 
-func Template(path, content string, vars any) error {
-	t, err := template.New(path).Parse(content)
+func Template(target, content string, vars any) error {
+	t, err := template.New(target).Parse(content)
 	if err != nil {
 		return err
 	}
-	file, err := os.Create(path)
+	file, err := os.Create(target)
 	if err != nil {
 		return err
 	}

@@ -28,7 +28,7 @@ func Install(version, arch, platform string, notIf ...bool) {
 		if err != nil {
 			panic(err)
 		}
-		archive.Untar("/usr/local/bin", tar)
+		archive.Untar(tar, "/usr/local/bin")
 
 		fmt.Println("[Traefik][Install] Delete archive")
 		file.Delete(localFileName)
