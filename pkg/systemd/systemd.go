@@ -61,7 +61,7 @@ WantedBy={{ .WantedBy}}
 `
 
 	err := file.Template(
-		fmt.Sprintf("/etc/systemd/%v/%v.service", .ServiceType, .Name),
+		fmt.Sprintf("/etc/systemd/%v/%v.service", s.ServiceType, s.Name),
 		content,
 		s,
 	)
