@@ -60,9 +60,12 @@ WantedBy={{ s.WantedBy}}
 {{end}}
 `
 
-	file.Template(
+	err := file.Template(
 		fmt.Sprintf("/etc/systemd/%v/%v.service", s.ServiceType, s.Name),
 		content,
 		s,
 	)
+	if err != nil {
+		panic(err)
+	}
 }
