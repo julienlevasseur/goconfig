@@ -23,45 +23,45 @@ type Service struct {
 
 func (s Service) New() {
 	content := `[Unit]
-{{if s.Description}}
-Description={{ s.Description}}
+{{if .Description}}
+Description={{ .Description}}
 {{end}}
-{{if s.Requires}}
-Requires={{ s.Requires}}
+{{if .Requires}}
+Requires={{ .Requires}}
 {{end}}
-{{if s.After}}
-After={{ s.After}}
+{{if .After}}
+After={{ .After}}
 {{end}}
 		
 [Service]
-{{if s.Environment}}
-Environment={{ s.Environment}}
+{{if .Environment}}
+Environment={{ .Environment}}
 {{end}}
-{{if s.Restart}}
-Restart={{ s.Restart}}
+{{if .Restart}}
+Restart={{ .Restart}}
 {{end}}
 
-{{if s.ExecStart}}
-ExecStart={{ s.ExecStart}}
+{{if .ExecStart}}
+ExecStart={{ .ExecStart}}
 {{end}}
-{{if s.ExecReload}}
-ExecReload={{ s.ExecReload}}
+{{if .ExecReload}}
+ExecReload={{ .ExecReload}}
 {{end}}
-{{if s.ExecStop}}
-ExecStop={{ s.ExecStop}}
+{{if .ExecStop}}
+ExecStop={{ .ExecStop}}
 {{end}}
-{{if s.KillSignal}}
-KillSignal={{ s.KillSignal}}
+{{if .KillSignal}}
+KillSignal={{ .KillSignal}}
 {{end}}
 
 [Install]
-{{if s.WantedBy}}
-WantedBy={{ s.WantedBy}}
+{{if .WantedBy}}
+WantedBy={{ .WantedBy}}
 {{end}}
 `
 
 	err := file.Template(
-		fmt.Sprintf("/etc/systemd/%v/%v.service", s.ServiceType, s.Name),
+		fmt.Sprintf("/etc/systemd/%v/%v.service", .ServiceType, .Name),
 		content,
 		s,
 	)
