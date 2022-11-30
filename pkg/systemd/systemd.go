@@ -23,12 +23,8 @@ type Service struct {
 
 func (s Service) New() {
 	content := `[Unit]
-{{if .Description}}
-Description={{ .Description}}
-{{end}}
-{{if .Requires}}
-Requires={{ .Requires}}
-{{end}}
+{{if .Description}}Description={{ .Description}}{{end}}
+{{if .Requires}}Requires={{ .Requires}}{{end}}
 {{if .After}}
 After={{ .After}}
 {{end}}
