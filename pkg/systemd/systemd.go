@@ -21,7 +21,7 @@ type Service struct {
 	WantedBy    string
 }
 
-func (s Service) New(name, serviceType string, service Service) {
+func (s Service) New() {
 	content := `[Unit]
 {{if s.Description}}
 Description={{ s.Description}}
@@ -61,8 +61,8 @@ WantedBy={{ s.WantedBy}}
 `
 
 	file.Template(
-		fmt.Sprintf("/etc/systemd/%v/%v.service", s.serviceType, s.name),
+		fmt.Sprintf("/etc/systemd/%v/%v.service", s.ServiceType, s.Name),
 		content,
-		service,
+		s,
 	)
 }
