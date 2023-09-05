@@ -35,6 +35,6 @@ func Install(version, arch, platform string, notIf ...bool) {
 
 		fmt.Println("[Traefik][Install] Complete")
 	} else {
-		fmt.Println("[Traefik][Install] Ignore InstallTraefik due to NotIf")
+		fmt.Println("[Traefik][Install] Ignore Install Traefik due to NotIf")
 	}
 }

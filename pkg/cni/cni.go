@@ -26,7 +26,7 @@ func Install(version, arch string) {
 	if err != nil {
 		panic(err)
 	}
-	archive.Untar("/opt/cni/bin", tar)
+	archive.Untar(tar, "/opt/cni/bin")
 
 	fmt.Println("[CNI][Install] Delete archive")
 	file.Delete(localFileName)
