@@ -1,8 +1,8 @@
-module github.com/jluienlevasseur/goconfig
+module github.com/julienlevasseur/goconfig
 
-go 1.21
+go 1.21.3
 
-toolchain go1.21.3
+require github.com/hashicorp/nomad v1.6.2
 
 require (
 	cloud.google.com/go v0.107.0 // indirect
@@ -138,7 +138,6 @@ require (
 	github.com/hashicorp/mdns v1.0.4 // indirect
 	github.com/hashicorp/memberlist v0.5.0 // indirect
 	github.com/hashicorp/net-rpc-msgpackrpc v0.0.0-20151116020338-a14192a58a69 // indirect
-	github.com/hashicorp/nomad v1.6.2 // indirect
 	github.com/hashicorp/nomad/api v0.0.0-20230103221135-ce00d683f9be // indirect
 	github.com/hashicorp/raft v1.5.0 // indirect
 	github.com/hashicorp/raft-autopilot v0.1.6 // indirect
