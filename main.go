@@ -1,10 +1,7 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/julienlevasseur/GoCfgMgr/pkg/file"
-	"github.com/julienlevasseur/GoCfgMgr/pkg/folder"
+	"github.com/julienlevasseur/goconfig/pkg/nomad"
 )
 
 func main() {
@@ -66,81 +63,87 @@ func main() {
 	//	),
 	//)
 
-	folder.Create("/etc/consul")
+	// 	folder.Create("/etc/consul")
 
-	consulCfg := `datacenter = "{{ .Datacenter}"
-data_dir = "{{ .DataDir}}"
-encrypt = "{{ .Encrypt}}"
-log_level = "{{ .LogLevel}}"
-node_name = "{{ .NodeName}}"
-server = {{ .Server}}
-bootstrap_expect = {{ .BootstrapExpect}}
-bind_addr = "{{ .BindAddr}}"
-client_addr = "{{ .ClientAddr}}"
-acl {
-  enabled = {{ .ACL.Enabled}}
-  default_policy = "{{ .ACL.DefaultPolicy}}"
-  down_policy = "{{ .ACL.DownPolicy}}"
-  enable_token_persistence = {{ .ACL.EnableTokenPersistence}}
-  enable_token_replication = {{ .ACL.EnableTokenReplication}}
-  tokens {
-	master = "{{ .ACL.Tokens.Master}}"
-  }
-}
-	`
+	// 	consulCfg := `datacenter = "{{ .Datacenter}"
+	// data_dir = "{{ .DataDir}}"
+	// encrypt = "{{ .Encrypt}}"
+	// log_level = "{{ .LogLevel}}"
+	// node_name = "{{ .NodeName}}"
+	// server = {{ .Server}}
+	// bootstrap_expect = {{ .BootstrapExpect}}
+	// bind_addr = "{{ .BindAddr}}"
+	// client_addr = "{{ .ClientAddr}}"
+	// acl {
+	//   enabled = {{ .ACL.Enabled}}
+	//   default_policy = "{{ .ACL.DefaultPolicy}}"
+	//   down_policy = "{{ .ACL.DownPolicy}}"
+	//   enable_token_persistence = {{ .ACL.EnableTokenPersistence}}
+	//   enable_token_replication = {{ .ACL.EnableTokenReplication}}
+	//   tokens {
+	// 	master = "{{ .ACL.Tokens.Master}}"
+	//   }
+	// }
+	// 	`
 
-	type ConsulTokens struct {
-		Master string
+	// 	type ConsulTokens struct {
+	// 		Master string
+	// 	}
+
+	// 	type consulACL struct {
+	// 		Enabled                bool
+	// 		DefaultPolicy          string
+	// 		DownPolicy             string
+	// 		EnableTokenPersistence bool
+	// 		EnableTokenReplication bool
+	// 		Tokens                 ConsulTokens
+	// 	}
+
+	// 	type consulVars struct {
+	// 		Datacenter      string
+	// 		DataDir         string
+	// 		Encrypt         string
+	// 		LogLevel        string
+	// 		NodeName        string
+	// 		Server          bool
+	// 		BootstrapExpect int
+	// 		BindAddr        string
+	// 		ClientAddr      string
+	// 		ACL             consulACL
+	// 	}
+	// 	cVars := consulVars{
+	// 		Datacenter:      "aws",
+	// 		DataDir:         "/opt/consul",
+	// 		Encrypt:         "u00sHTLcDsjucyWN8Jfr2g==",
+	// 		LogLevel:        "INFO",
+	// 		NodeName:        "Traefik",
+	// 		Server:          true,
+	// 		BootstrapExpect: 1,
+	// 		BindAddr:        "{{ GetInterfaceIP \"ens5\" }}",
+	// 		ClientAddr:      "0.0.0.0",
+	// 		ACL: consulACL{
+	// 			Enabled:                true,
+	// 			DefaultPolicy:          "deny",
+	// 			DownPolicy:             "extend-cache",
+	// 			EnableTokenPersistence: true,
+	// 			EnableTokenReplication: true,
+	// 			Tokens: ConsulTokens{
+	// 				Master: "1d7b246f-8000-e312-fe59-c9a57190119f",
+	// 			},
+	// 		},
+	// 	}
+
+	// 	fmt.Println("create template consul.hcl")
+	// 	file.Template(
+	// 		"consul.hcl",
+	// 		consulCfg,
+	// 		cVars,
+	// 	)
+
+	nomadConfig := nomad.NomadConfig{
+		BindAddr: "127.0.0.1",
 	}
 
-	type consulACL struct {
-		Enabled                bool
-		DefaultPolicy          string
-		DownPolicy             string
-		EnableTokenPersistence bool
-		EnableTokenReplication bool
-		Tokens                 ConsulTokens
-	}
-
-	type consulVars struct {
-		Datacenter      string
-		DataDir         string
-		Encrypt         string
-		LogLevel        string
-		NodeName        string
-		Server          bool
-		BootstrapExpect int
-		BindAddr        string
-		ClientAddr      string
-		ACL             consulACL
-	}
-	cVars := consulVars{
-		Datacenter:      "aws",
-		DataDir:         "/opt/consul",
-		Encrypt:         "u00sHTLcDsjucyWN8Jfr2g==",
-		LogLevel:        "INFO",
-		NodeName:        "Traefik",
-		Server:          true,
-		BootstrapExpect: 1,
-		BindAddr:        "{{ GetInterfaceIP \"ens5\" }}",
-		ClientAddr:      "0.0.0.0",
-		ACL: consulACL{
-			Enabled:                true,
-			DefaultPolicy:          "deny",
-			DownPolicy:             "extend-cache",
-			EnableTokenPersistence: true,
-			EnableTokenReplication: true,
-			Tokens: ConsulTokens{
-				Master: "1d7b246f-8000-e312-fe59-c9a57190119f",
-			},
-		},
-	}
-
-	fmt.Println("create template consul.hcl")
-	file.Template(
-		"consul.hcl",
-		consulCfg,
-		cVars,
-	)
+	nomad.ConfigFile(nomadConfig, "/tmp/noamd.hcl")
 
 }
