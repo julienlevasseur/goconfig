@@ -3,7 +3,7 @@ package vscodium
 import (
 	"fmt"
 
-	"github.com/julienlevasseur/GoCfgMgr/pkg/system"
+	"github.com/julienlevasseur/goconfig/pkg/system"
 )
 
 // Install VSCodium

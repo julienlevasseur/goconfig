@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/julienlevasseur/GoCfgMgr/pkg/archive"
-	"github.com/julienlevasseur/GoCfgMgr/pkg/file"
+	"github.com/julienlevasseur/goconfig/pkg/archive"
+	"github.com/julienlevasseur/goconfig/pkg/file"
 )
 
 type Nomad struct {

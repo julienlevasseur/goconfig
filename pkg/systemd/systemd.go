@@ -3,7 +3,7 @@ package systemd
 import (
 	"fmt"
 
-	"github.com/julienlevasseur/GoCfgMgr/pkg/file"
+	"github.com/julienlevasseur/goconfig/pkg/file"
 )
 
 type Service struct {

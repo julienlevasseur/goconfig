@@ -3,8 +3,8 @@ package crontab
 import (
 	"fmt"
 
-	"github.com/julienlevasseur/GoCfgMgr/pkg/file"
-	"github.com/julienlevasseur/GoCfgMgr/pkg/user"
+	"github.com/julienlevasseur/goconfig/pkg/file"
+	"github.com/julienlevasseur/goconfig/pkg/user"
 )
 
 // * * * * * command to be executed
