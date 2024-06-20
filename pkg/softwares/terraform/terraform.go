@@ -15,7 +15,7 @@ func Install(version, arch, platform string, notIf ...bool) {
 		fmt.Printf("[%v][Install] Ignore Install due to NotIf", name)
 	} else {
 		fmt.Printf("[%v][Install] Download archive", name)
-		localFileName := fmt.Sprintf("terraform_%v_%v_%v.zip", version, version, platform, arch)
+		localFileName := fmt.Sprintf("terraform_%v_%v_%v.zip", version, platform, arch)
 		URL := fmt.Sprintf("https://releases.hashicorp.com/terraform/%v/terraform_%v_%v_%v.zip", version, version, platform, arch)
 
 		file.Download(
