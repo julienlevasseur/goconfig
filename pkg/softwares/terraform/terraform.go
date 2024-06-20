@@ -74,6 +74,6 @@ func Install(version, arch, platform string, notIf ...bool) {
 			panic(err)
 		}
 
-		fmt.Printf("[%v][Install] Complete", name)
+		fmt.Printf("[%v][Install] Complete\n", name)
 	}
 }
