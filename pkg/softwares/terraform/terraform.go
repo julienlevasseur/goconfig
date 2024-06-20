@@ -9,7 +9,7 @@ import (
 )
 
 const name = "Terraform"
-const destFolder = "destFolder"
+const destFolder = "/usr/local/bin"
 
 func Install(version, arch, platform string, notIf ...bool) {
 	if notIf[0] {
@@ -19,13 +19,16 @@ func Install(version, arch, platform string, notIf ...bool) {
 		localFileName := fmt.Sprintf("terraform_%v_%v_%v.zip", version, platform, arch)
 		URL := fmt.Sprintf("https://releases.hashicorp.com/terraform/%v/terraform_%v_%v_%v.zip", version, version, platform, arch)
 
-		file.Download(
+		err := file.Download(
 			URL,
 			localFileName,
 		)
+		if err != nil {
+			panic(err)
+		}
 
 		fmt.Printf("[%v][Install] Decompress archive\n", name)
-		err := archive.Unzip(localFileName, destFolder)
+		err = archive.Unzip(localFileName, destFolder)
 		if err != nil {
 			panic(err)
 		}
