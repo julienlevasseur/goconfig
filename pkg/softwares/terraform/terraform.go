@@ -23,15 +23,21 @@ func Install(version, arch, platform string, notIf ...bool) {
 			localFileName,
 		)
 
-		fmt.Printf("[%v][Install] Decompress archive", name)
-		zip, err := os.Open(localFileName)
+		// fmt.Printf("[%v][Install] Decompress archive", name)
+		// zip, err := os.Open(localFileName)
+		// if err != nil {
+		// 	panic(err)
+		// }
+		err := archive.Unzip(localFileName, "/usr/local/bin")
 		if err != nil {
 			panic(err)
 		}
-		archive.Unzip(zip, "/usr/local/bin")
 
 		fmt.Printf("[%v][Install] Delete archive", name)
-		file.Delete(localFileName)
+		err = file.Delete(localFileName)
+		if err != nil {
+			panic(err)
+		}
 
 		// Rename file to terraform_${version}
 		err = os.Rename("/usr/local/bin/terraform", fmt.Sprintf("/usr/local/bin/terraform_%v", version))
