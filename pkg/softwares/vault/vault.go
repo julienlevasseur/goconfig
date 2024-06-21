@@ -17,8 +17,8 @@ func (vi *VaultInstaller) Install(name, version, arch, platform string, notIf ..
 		fmt.Printf("[%v][Install] Ignore Install due to NotIf\n", name)
 	} else {
 		fmt.Printf("[%v][Install] Download archive\n", name)
+		URL := fmt.Sprintf("https://releases.hashicorp.com/vault/%v/vault_%v_%v_%v.zip", version, version, platform, arch)
 		localFileName := fmt.Sprintf("vault_%v_%v_%v.zip", version, platform, arch)
-		URL := fmt.Sprintf("https://releases.hashicorp.com/vault/%v/vault%v_%v_%v.zip", version, version, platform, arch)
 
 		err := file.Download(
 			URL,
