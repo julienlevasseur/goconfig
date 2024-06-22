@@ -16,7 +16,7 @@ type IInstaller interface {
 
 type Installer struct{}
 
-func (i *Installer) Install(name, version, archiveURL, archiveFilename, destFolder string, notIf ...bool) {
+func (i *Installer) InstallFromArchiveURL(name, version, archiveURL, archiveFilename, destFolder string, notIf ...bool) {
 	if notIf[0] {
 		fmt.Printf("[%v][Install] Ignore Install due to NotIf\n", name)
 	} else {
