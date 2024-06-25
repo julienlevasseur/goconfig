@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/julienlevasseur/goconfig/pkg/archive"
+	"github.com/julienlevasseur/goconfig/pkg/command"
 	"github.com/julienlevasseur/goconfig/pkg/file"
 )
 
@@ -33,15 +34,26 @@ func (psi *PrusaSlicerInstaller) Install(version, platform, arch string, notIf b
 			panic(err)
 		}
 
-		err = file.Move(
+		//err = file.Move(
+		//	fmt.Sprintf(
+		//		"/tmp/PrusaSlicer-%v+%v-%v-GTK3-*.AppImage",
+		//		version,
+		//		platform,
+		//		arch,
+		//	),
+		//	fmt.Sprintf(
+		//		"/opt/PrusaSlicer-%v+%v-%v-GTK3.AppImage",
+		//		version,
+		//		platform,
+		//		arch,
+		//	),
+		//)
+		command.Exec(
 			fmt.Sprintf(
-				"/tmp/PrusaSlicer-%v+%v-%v-GTK3-*.AppImage",
+				"mv /tmp/PrusaSlicer-%v+%v-%v-GTK3-*.AppImage /opt/PrusaSlicer-%v+%v-%v-GTK3.AppImage",
 				version,
 				platform,
 				arch,
-			),
-			fmt.Sprintf(
-				"/opt/PrusaSlicer-%v+%v-%v-GTK3.AppImage",
 				version,
 				platform,
 				arch,
