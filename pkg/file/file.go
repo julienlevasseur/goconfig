@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"html/template"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
@@ -27,6 +26,33 @@ func Append(path, content string) error {
 
 func Delete(path string) error {
 	return os.Remove(path)
+}
+
+func Move(sourcePath, destPath string) error {
+	inputFile, err := os.Open(sourcePath)
+	if err != nil {
+		return fmt.Errorf("Couldn't open source file: %v", err)
+	}
+	defer inputFile.Close()
+
+	outputFile, err := os.Create(destPath)
+	if err != nil {
+		return fmt.Errorf("Couldn't open dest file: %v", err)
+	}
+	defer outputFile.Close()
+
+	_, err = io.Copy(outputFile, inputFile)
+	if err != nil {
+		return fmt.Errorf("Couldn't copy to dest from source: %v", err)
+	}
+
+	inputFile.Close()
+
+	err = os.Remove(sourcePath)
+	if err != nil {
+		return fmt.Errorf("Couldn't remove source file: %v", err)
+	}
+	return nil
 }
 
 func Download(URL, fileDest string) error {
@@ -65,7 +91,7 @@ func LineIsPresent(path, match string) (bool, error) {
 		return false, err
 	}
 	if fileExists {
-		f, err := ioutil.ReadFile(path)
+		f, err := os.ReadFile(path)
 		if err != nil {
 			return false, err
 		}
@@ -88,7 +114,7 @@ func New(path string) error {
 }
 
 func ReplaceLine(path, match, content string) error {
-	f, err := ioutil.ReadFile(path)
+	f, err := os.ReadFile(path)
 	if err != nil {
 		return err
 	}
@@ -102,7 +128,7 @@ func ReplaceLine(path, match, content string) error {
 	}
 
 	out := strings.Join(lines, "\n")
-	err = ioutil.WriteFile(path, []byte(out), 0644)
+	err = os.WriteFile(path, []byte(out), 0644)
 	if err != nil {
 		return err
 	}
