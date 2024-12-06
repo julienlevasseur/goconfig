@@ -1,7 +1,12 @@
 package main
 
 import (
-	"github.com/julienlevasseur/goconfig/pkg/nomad"
+	"fmt"
+
+	"github.com/julienlevasseur/goconfig/pkg/apt"
+	"github.com/julienlevasseur/goconfig/pkg/file"
+	"github.com/julienlevasseur/goconfig/pkg/softwares/helm"
+	"github.com/julienlevasseur/goconfig/pkg/softwares/minikube"
 )
 
 func main() {
@@ -140,10 +145,36 @@ func main() {
 	// 		cVars,
 	// 	)
 
-	nomadConfig := nomad.NomadConfig{
-		BindAddr: "127.0.0.1",
+	// nomadConfig := nomad.NomadConfig{
+	// 	BindAddr: "127.0.0.1",
+	// }
+
+	// nomad.ConfigFile(nomadConfig, "/tmp/noamd.hcl")
+
+	// az_cli.Install(false)
+
+	apt.Update()
+	yamllintPkg := apt.IPackage{
+		Name: "yamllint",
+	}
+	err := yamllintPkg.Install(file.Exists("/usr/bin/yamllint"))
+	if err != nil {
+		fmt.Println(err)
 	}
 
-	nomad.ConfigFile(nomadConfig, "/tmp/noamd.hcl")
+	// Docker install
+	apt.Update()
+	dockerPkg := apt.IPackage{
+		Name: "docker.io",
+	}
+	err = dockerPkg.Install(file.Exists("/usr/bin/docker"))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// Minikube install
+	minikube.Install("amd64", "linux", file.Exists("/usr/local/bin/minikube"))
+
+	helm.Install(false)
 
 }
