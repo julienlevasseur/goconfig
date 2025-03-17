@@ -111,6 +111,46 @@ func New(path string) error {
 	return err
 }
 
+// func linesFromReader(r io.Reader) ([]string, error) {
+// 	var lines []string
+// 	scanner := bufio.NewScanner(r)
+// 	for scanner.Scan() {
+// 		lines = append(lines, scanner.Text())
+// 	}
+// 	if err := scanner.Err(); err != nil {
+// 		return nil, err
+// 	}
+
+// 	return lines, nil
+// }
+
+// func file2lines(filePath string) ([]string, error) {
+// 	f, err := os.Open(filePath)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	defer f.Close()
+// 	return linesFromReader(f)
+// }
+
+// func InsertStringToFile(path, str string, lineNbr int) error {
+// 	lines, err := file2lines(path)
+// 	if err != nil {
+// 		return err
+// 	}
+
+// 	fileContent := ""
+// 	for i, line := range lines {
+// 		if i == lineNbr {
+// 			fileContent += str
+// 		}
+// 		fileContent += line
+// 		fileContent += "\n"
+// 	}
+
+// 	return os.WriteFile(path, []byte(fileContent), 0644)
+// }
+
 func ReplaceLine(path, match, content string) error {
 	f, err := os.ReadFile(path)
 	if err != nil {
