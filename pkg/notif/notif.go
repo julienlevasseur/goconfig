@@ -11,7 +11,5 @@ func IgnoreDueToNotIf(name string) {
 }
 
 func FileExists(path string) *bool {
-	exists := file.Exists(path)
-
-	return &exists
+	return file.Exists(path)
 }

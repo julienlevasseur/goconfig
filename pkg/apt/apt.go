@@ -35,7 +35,6 @@ func Packages(names []string) error {
 		// Don't check for error here, since a unsuccessful grep will return an error status 1:
 		installed, _ := pkg.Installed()
 
-		fmt.Println(installed)
 		err := pkg.Install(installed)
 		if err != nil {
 			return err
@@ -46,8 +45,8 @@ func Packages(names []string) error {
 	return nil
 }
 
-func (p IPackage) Install(notIf ...bool) error {
-	if !notIf[0] {
+func (p IPackage) Install(notIf *bool) error {
+	if notIf != nil && !*notIf {
 		fmt.Printf("[%v][Install] installing package\n", p.Name)
 		pkg := apt.Package{
 			Name: p.Name,
@@ -68,7 +67,7 @@ func (p IPackage) Install(notIf ...bool) error {
 	return nil
 }
 
-func (p IPackage) Installed() (bool, error) {
+func (p IPackage) Installed() (*bool, error) {
 	output, err := command.ExecWithOutput(
 		"bash",
 		[]string{
@@ -77,8 +76,10 @@ func (p IPackage) Installed() (bool, error) {
 		},
 	)
 	if output != "" {
-		return true, err
+		t := true
+		return &t, err
 	}
 
-	return false, err
+	f := false
+	return &f, err
 }

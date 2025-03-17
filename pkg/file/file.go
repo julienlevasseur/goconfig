@@ -76,19 +76,21 @@ func Download(URL, fileDest string) error {
 	return nil
 }
 
-func Exists(path string) bool {
+func Exists(path string) *bool {
 	_, err := os.Stat(path)
 	if os.IsNotExist(err) {
-		return false
+		f := false
+		return &f
 	} else {
-		return true
+		t := true
+		return &t
 	}
 }
 
 func LineIsPresent(path, match string) (bool, error) {
 	fileExists := Exists(path)
 
-	if fileExists {
+	if *fileExists {
 		f, err := os.ReadFile(path)
 		if err != nil {
 			return false, err
