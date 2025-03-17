@@ -33,7 +33,7 @@ func Install(notIf *bool) {
 			fmt.Println(err)
 		}
 
-		err = command.Exec("chmod", []string{"+x", "/usr/local/bin/powerline-go"})
+		err = command.Exec("sudo", []string{"chmod", "+x", "/usr/local/bin/powerline-go"})
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -72,7 +72,6 @@ function _update_ps1() {
 		}
 
 		if !promptCmdLine {
-			fmt.Println("INSERT LINE")
 			file.Append(
 				bashrcPath,
 				`
