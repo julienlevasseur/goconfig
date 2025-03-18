@@ -23,7 +23,24 @@ func (u *User) HomeDir() (string, error) {
 		}
 		return us.HomeDir, nil
 	}
+}
 
+func (u *User) UID() (string, error) {
+	us, err := user.Lookup(u.Username)
+	if err != nil {
+		return "", err
+	}
+
+	return us.Uid, nil
+}
+
+func (u *User) GID() (string, error) {
+	us, err := user.Lookup(u.Username)
+	if err != nil {
+		return "", err
+	}
+
+	return us.Gid, nil
 }
 
 func Username() (string, error) {
