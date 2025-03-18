@@ -35,3 +35,18 @@ func CreateAll(path string, notIf *bool) error {
 
 	return nil
 }
+
+func Exists(path string) *bool {
+	t := true
+	_, err := os.ReadDir(path)
+	if err != nil {
+		return &t
+	}
+
+	if os.IsNotExist(err) {
+		f := false
+		return &f
+	}
+
+	return &t
+}
