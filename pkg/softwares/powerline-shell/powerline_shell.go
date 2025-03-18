@@ -80,6 +80,6 @@ fi`,
 		)
 
 	} else {
-		notif.IgnoreDueToNotIf(name)
+		notif.IgnoreDueToNotIf(name, "Install")
 	}
 }

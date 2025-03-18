@@ -2,14 +2,20 @@ package notif
 
 import (
 	"fmt"
-
-	"github.com/julienlevasseur/goconfig/pkg/file"
+	"os"
 )
 
-func IgnoreDueToNotIf(name string) {
-	fmt.Printf("[%v][Install] Ignore Installation due to NotIf\n", name)
+func IgnoreDueToNotIf(name, step string) {
+	fmt.Printf("[%v][%v] Ignore due to NotIf", name, step)
 }
 
 func FileExists(path string) *bool {
-	return file.Exists(path)
+	_, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		f := false
+		return &f
+	} else {
+		t := true
+		return &t
+	}
 }

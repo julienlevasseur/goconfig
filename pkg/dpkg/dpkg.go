@@ -56,7 +56,7 @@ func (d Dpkg) Install() error {
 
 		fmt.Printf("\n[%v][Installation complete]\n", d.Name)
 	} else {
-		notif.IgnoreDueToNotIf(d.Name)
+		notif.IgnoreDueToNotIf(d.Name, "Install")
 	}
 
 	return nil

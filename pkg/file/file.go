@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/julienlevasseur/goconfig/pkg/notif"
 )
 
 func Append(path, content string, notIf *bool) error {
@@ -21,6 +23,8 @@ func Append(path, content string, notIf *bool) error {
 		if err != nil {
 			return err
 		}
+	} else {
+		notif.IgnoreDueToNotIf("File", "Append")
 	}
 
 	return nil
