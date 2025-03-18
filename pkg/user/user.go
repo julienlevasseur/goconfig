@@ -1,6 +1,10 @@
 package user
 
-import "os/user"
+import (
+	"os"
+	"os/user"
+	"strconv"
+)
 
 type User struct {
 	Username string
@@ -41,6 +45,35 @@ func (u *User) GID() (string, error) {
 	}
 
 	return us.Gid, nil
+}
+
+func (u *User) ChownToUser(path string) error {
+	strUID, err := u.UID()
+	if err != nil {
+		return err
+	}
+
+	uid, err := strconv.Atoi(strUID)
+	if err != nil {
+		return err
+	}
+
+	strGID, err := u.GID()
+	if err != nil {
+		return err
+	}
+
+	gid, err := strconv.Atoi(strGID)
+	if err != nil {
+		return err
+	}
+
+	err = os.Chown(path, uid, gid)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func Username() (string, error) {
