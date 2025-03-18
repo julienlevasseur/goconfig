@@ -39,14 +39,12 @@ func CreateAll(path string, notIf *bool) error {
 func Exists(path string) *bool {
 	t := true
 	_, err := os.ReadDir(path)
-	if err != nil {
-		fmt.Printf("[ERROR] [Folder][Create] %v", err)
-		return &t
-	}
-
 	if os.IsNotExist(err) {
 		f := false
 		return &f
+	} else if err != nil {
+		fmt.Printf("[ERROR] [Folder][Create] %v", err)
+		return &t
 	}
 
 	return &t
