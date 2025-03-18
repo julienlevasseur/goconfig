@@ -50,21 +50,21 @@ func Cron(
 	if err != nil {
 		return err
 	}
-	if !found {
-		fmt.Println("[Crontab] Add new crontab entry")
-		file.Append(
-			fmt.Sprintf("/var/spool/cron/crontabs/%s", username),
-			fmt.Sprintf(
-				"%s %s %s %s %s %s",
-				minute,
-				hour,
-				dayOfMonth,
-				monthOfYear,
-				dayOfWeek,
-				command,
-			),
-		)
-	}
+
+	fmt.Println("[Crontab] Add new crontab entry")
+	file.Append(
+		fmt.Sprintf("/var/spool/cron/crontabs/%s", username),
+		fmt.Sprintf(
+			"%s %s %s %s %s %s",
+			minute,
+			hour,
+			dayOfMonth,
+			monthOfYear,
+			dayOfWeek,
+			command,
+		),
+		&found,
+	)
 
 	return nil
 }

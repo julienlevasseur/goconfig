@@ -9,16 +9,18 @@ import (
 	"strings"
 )
 
-func Append(path, content string) error {
-	f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
+func Append(path, content string, notIf *bool) error {
+	if notIf != nil && !*notIf {
+		f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		if err != nil {
+			return err
+		}
+		defer f.Close()
 
-	_, err = f.WriteString(content)
-	if err != nil {
-		return err
+		_, err = f.WriteString(content)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

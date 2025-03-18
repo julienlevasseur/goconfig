@@ -53,15 +53,14 @@ func Install(notIf *bool) {
 			fmt.Println(err)
 		}
 
-		if !updatePS1FuncLine {
-			file.Append(
-				bashrcPath,
-				`
+		file.Append(
+			bashrcPath,
+			`
 function _update_ps1() {
   PS1="$(/usr/local/bin/powerline-go -error $? -jobs $(jobs -p|wc -l) -theme default -mode compatible -modules time,host,cwd,git,venv,terraform-workspace,kube,profiler,root,newline)"
 }`,
-			)
-		}
+			&updatePS1FuncLine,
+		)
 
 		promptCmdLine, err := file.LineIsPresent(
 			bashrcPath,
@@ -71,15 +70,15 @@ function _update_ps1() {
 			fmt.Println(err)
 		}
 
-		if !promptCmdLine {
-			file.Append(
-				bashrcPath,
-				`
+		file.Append(
+			bashrcPath,
+			`
 if [ "$TERM" != "linux" ] && [ -f "/usr/local/bin/powerline-go" ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi`,
-			)
-		}
+			&promptCmdLine,
+		)
+
 	} else {
 		notif.IgnoreDueToNotIf(name)
 	}

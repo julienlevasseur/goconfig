@@ -39,8 +39,9 @@ func (t *Teams) Install() error {
 		homePath, err = u.HomeDir()
 	}
 
+	teamsDesktopFilePath := homePath + "/.local/share/applications/teams-for-linux.desktop"
 	err = file.Append(
-		homePath+"/.local/share/applications/teams-for-linux.desktop",
+		teamsDesktopFilePath,
 		`[Desktop Entry]
 Type=Application
 Icon=/usr/share/icons/hicolor/1024x1024/apps/teams-for-linux.png
@@ -52,7 +53,10 @@ Exec=/opt/teams-for-linux/teams-for-linux --no-sandbox %U
 StartupNotify=true
 Terminal=false
 		`,
+		notif.FileExists(teamsDesktopFilePath),
 	)
+
+	fmt.Printf("\n[%v][Install][Installation complete]\n", t.Name)
 
 	return err
 }

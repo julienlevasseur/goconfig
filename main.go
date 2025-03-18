@@ -1,14 +1,5 @@
 package main
 
-import (
-	"fmt"
-
-	"github.com/julienlevasseur/goconfig/pkg/apt"
-	"github.com/julienlevasseur/goconfig/pkg/file"
-	"github.com/julienlevasseur/goconfig/pkg/softwares/helm"
-	"github.com/julienlevasseur/goconfig/pkg/softwares/minikube"
-)
-
 func main() {
 	// Install CNI plugins
 	//cni.Install("v1.1.1", "amd64")
@@ -153,28 +144,31 @@ func main() {
 
 	// az_cli.Install(false)
 
-	apt.Update()
-	yamllintPkg := apt.IPackage{
-		Name: "yamllint",
-	}
-	err := yamllintPkg.Install(file.Exists("/usr/bin/yamllint"))
-	if err != nil {
-		fmt.Println(err)
-	}
+	//////////
 
-	// Docker install
-	apt.Update()
-	dockerPkg := apt.IPackage{
-		Name: "docker.io",
-	}
-	err = dockerPkg.Install(file.Exists("/usr/bin/docker"))
-	if err != nil {
-		fmt.Println(err)
-	}
+	// apt.Update()
+	// yamllintPkg := apt.IPackage{
+	// 	Name: "yamllint",
+	// }
+	// err := yamllintPkg.Install(file.Exists("/usr/bin/yamllint"))
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 
-	// Minikube install
-	minikube.Install("amd64", "linux", file.Exists("/usr/local/bin/minikube"))
+	// // Docker install
+	// apt.Update()
+	// dockerPkg := apt.IPackage{
+	// 	Name: "docker.io",
+	// }
+	// err = dockerPkg.Install(file.Exists("/usr/bin/docker"))
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 
-	helm.Install(false)
+	// // Minikube install
+	// minikube.Install("amd64", "linux", file.Exists("/usr/local/bin/minikube"))
 
+	// helm.Install(false)
+
+	// powerlineshell.Install(new(bool))
 }
