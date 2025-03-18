@@ -19,7 +19,7 @@ func (d Dpkg) Install() error {
 	var f bool = false
 
 	if d.NotIf == nil || d.NotIf == &f {
-		fmt.Printf("\n[%v][Download archive]\n", d.Name)
+		fmt.Printf("\n[%v][Download archive]", d.Name)
 
 		fileName := strings.Split(
 			d.ArchiveURL,
@@ -36,7 +36,7 @@ func (d Dpkg) Install() error {
 			return err
 		}
 
-		fmt.Printf("\n[%v][Install package]\n", d.Name)
+		fmt.Printf("\n[%v][Install package]", d.Name)
 		err = command.Exec(
 			"dpkg",
 			[]string{
@@ -48,7 +48,7 @@ func (d Dpkg) Install() error {
 			return err
 		}
 
-		fmt.Printf("\n[%v][Cleanup]\n", d.Name)
+		fmt.Printf("\n[%v][Cleanup]", d.Name)
 		err = file.Delete(downloadedFilePath)
 		if err != nil {
 			return err

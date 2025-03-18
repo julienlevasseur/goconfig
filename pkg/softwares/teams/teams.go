@@ -3,11 +3,11 @@ package teams
 import (
 	"fmt"
 
-	homedir "github.com/julienlevasseur/go-homedir"
 	"github.com/julienlevasseur/goconfig/pkg/dpkg"
 	"github.com/julienlevasseur/goconfig/pkg/file"
 	"github.com/julienlevasseur/goconfig/pkg/notif"
 	"github.com/julienlevasseur/goconfig/pkg/softwares"
+	"github.com/julienlevasseur/goconfig/pkg/user"
 )
 
 type Teams softwares.Software
@@ -29,10 +29,16 @@ func (t *Teams) Install() error {
 	}
 
 	fmt.Printf("\n[%v][Install][Menu Entry]", t.Name)
-	homePath, err := homedir.Dir()
-	if err != nil {
-		return err
+
+	var homePath string
+	if t.Options != nil && t.Options.Username != nil {
+		u := user.User{Username: "julien"}
+		homePath, err = u.HomeDir()
+	} else {
+		u := user.User{}
+		homePath, err = u.HomeDir()
 	}
+
 	err = file.Append(
 		homePath+"/.local/share/applications/teams-for-linux.desktop",
 		`[Desktop Entry]
