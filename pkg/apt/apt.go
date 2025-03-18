@@ -2,6 +2,8 @@ package apt
 
 import (
 	"fmt"
+	"os"
+	"time"
 
 	"github.com/julienlevasseur/goconfig/pkg/command"
 	apt "github.com/sigmonsays/go-apt-client"
@@ -14,12 +16,21 @@ type IPackage struct {
 type Package apt.Package
 
 func Update() error {
-	fmt.Printf("[apt] update package index files\n")
-	out, err := apt.CheckForUpdates()
+	ok, err := lastUpdateInLast24h()
 	if err != nil {
 		return err
 	}
-	fmt.Printf("\n%v\n", string(out))
+
+	if !ok {
+		fmt.Printf("[apt] Update package index files\n")
+		out, err := apt.CheckForUpdates()
+		if err != nil {
+			return err
+		}
+		fmt.Printf("\n%v\n", string(out))
+	} else {
+		fmt.Printf("[apt] Ingoring Update due to last update < 24h\n")
+	}
 
 	return err
 }
@@ -47,7 +58,7 @@ func Packages(names []string) error {
 
 func (p IPackage) Install(notIf *bool) error {
 	if notIf != nil && !*notIf {
-		fmt.Printf("[%v][Install] installing package\n", p.Name)
+		fmt.Printf("[%v][Install] Installing package\n", p.Name)
 		pkg := apt.Package{
 			Name: p.Name,
 		}
@@ -82,4 +93,29 @@ func (p IPackage) Installed() (*bool, error) {
 
 	f := false
 	return &f, err
+}
+
+func getLastUpdate() (time.Time, error) {
+	fileInfo, err := os.Stat("/var/lib/apt/lists")
+	if err != nil {
+		return time.Time{}, err
+	}
+
+	return fileInfo.ModTime(), nil
+}
+
+func lastUpdateInLast24h() (bool, error) {
+	now := time.Now()
+
+	lastUpdate, err := getLastUpdate()
+	if err != nil {
+		return false, err
+	}
+
+	yesterday := now.Add(-24 * time.Hour)
+	if lastUpdate.After(yesterday) {
+		return true, nil
+	}
+
+	return false, nil
 }
