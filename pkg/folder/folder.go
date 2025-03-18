@@ -40,6 +40,7 @@ func Exists(path string) *bool {
 	t := true
 	_, err := os.ReadDir(path)
 	if err != nil {
+		fmt.Printf("[ERROR] [Folder][Create] %v", err)
 		return &t
 	}
 
