@@ -3,29 +3,29 @@ package vscodium
 import (
 	"fmt"
 
-	"github.com/julienlevasseur/goconfig/pkg/system"
+	"github.com/julienlevasseur/goconfig/pkg/dpkg"
+	"github.com/julienlevasseur/goconfig/pkg/notif"
+	"github.com/julienlevasseur/goconfig/pkg/softwares"
 )
 
-// Install VSCodium
-func Install(version, arch, platform string, notIf ...bool) {
-	if !notIf[0] {
-		fmt.Println("[VSCodium][Install] Download archive")
+type VSCodium softwares.Software
 
-		distribution, err := system.Distribution()
-		if err != nil {
-			panic(err)
-		}
+func (v *VSCodium) Install() error {
+	fmt.Printf("\n[%v][Install][Package]", v.Name)
 
-		fmt.Println(distribution)
-
-		//localFileName := fmt.Sprintf("traefik_%s_%s_%s.tar.gz", arch, platform, version)
-		//URL := fmt.Sprintf("https://github.com/traefik/traefik/releases/download/%s/traefik_%s_%s_%s.tar.gz", version, version, platform, arch)
-
-		//file.Download(
-		//	URL,
-		//	localFileName,
-		//)
-	} else {
-		fmt.Println("[VSCodium][Install] Ignore Install VSCodium due to NotIf")
+	codium := dpkg.Dpkg{
+		Name: "codium",
+		ArchiveURL: fmt.Sprintf(
+			"https://github.com/VSCodium/vscodium/releases/download/%v/codium_%v_amd64.deb",
+			v.Version,
+			v.Version,
+		),
+		NotIf: notif.FileExists("/usr/bin/codium"),
 	}
+	err := codium.Install()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

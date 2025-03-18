@@ -30,6 +30,25 @@ func Append(path, content string, notIf *bool) error {
 	return nil
 }
 
+func Content(path, content string, notIf *bool) error {
+	if notIf != nil && !*notIf {
+		f, err := os.OpenFile(path, os.O_TRUNC|os.O_CREATE|os.O_WRONLY, 0644)
+		if err != nil {
+			return err
+		}
+		defer f.Close()
+
+		_, err = f.WriteString(content)
+		if err != nil {
+			return err
+		}
+	} else {
+		notif.IgnoreDueToNotIf("File", "Append")
+	}
+
+	return nil
+}
+
 func Delete(path string) error {
 	return os.Remove(path)
 }
