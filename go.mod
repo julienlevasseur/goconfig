@@ -3,6 +3,7 @@ module github.com/julienlevasseur/goconfig
 go 1.22.5
 
 require (
+	github.com/codingsince1985/checksum v1.3.0
 	github.com/hashicorp/nomad v1.6.2
 	github.com/julienlevasseur/go-homedir v0.0.0-20250317150910-e8eb7931bc6f
 	github.com/sigmonsays/go-apt-client v0.0.0-20231129205926-cd26c16b1293

@@ -23,8 +23,19 @@ func FileExists(path string) *bool {
 }
 
 func SameFile(path1, path2 string) *bool {
-	if checksum.MD5Sum(path1) == checksum.MD5Sum(path2) {
-		t := true
+	t := true
+
+	path1Sum, err := checksum.MD5sum(path1)
+	if err != nil {
+		return &t
+	}
+
+	path2Sum, err := checksum.MD5sum(path2)
+	if err != nil {
+		return &t
+	}
+
+	if path1Sum == path2Sum {
 		return &t
 	}
 
