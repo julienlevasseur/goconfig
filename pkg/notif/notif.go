@@ -42,3 +42,24 @@ func SameFile(path1, path2 string) *bool {
 	f := false
 	return &f
 }
+
+func NotSameFile(path1, path2 string) *bool {
+	f := false
+
+	path1Sum, err := checksum.MD5sum(path1)
+	if err != nil {
+		return &f
+	}
+
+	path2Sum, err := checksum.MD5sum(path2)
+	if err != nil {
+		return &f
+	}
+
+	if path1Sum == path2Sum {
+		return &f
+	}
+
+	t := true
+	return &t
+}

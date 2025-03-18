@@ -43,7 +43,7 @@ func Content(path, content string, notIf *bool) error {
 			return err
 		}
 	} else {
-		notif.IgnoreDueToNotIf("File", "Append")
+		notif.IgnoreDueToNotIf("File", "Content")
 	}
 
 	return nil
