@@ -1,14 +1,15 @@
 package notif
 
 import (
-	"fmt"
+	"log"
 	"os"
 
 	"github.com/codingsince1985/checksum"
 )
 
 func IgnoreDueToNotIf(name, step string) {
-	fmt.Printf("[%v][%v] Ignore due to NotIf\n", name, step)
+	// fmt.Printf("[%v][%v] Ignore due to NotIf\n", name, step)
+	log.Printf("[%v][%v] Ignore due to NotIf\n", name, step)
 }
 
 func FileExists(path string) *bool {

@@ -2,6 +2,7 @@ package apt
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"time"
 
@@ -22,14 +23,17 @@ func Update() error {
 	}
 
 	if !ok {
-		fmt.Printf("[apt] Update package index files\n")
+		// fmt.Printf("[apt] Update package index files\n")
+		log.Printf("[apt] Update package index files\n")
 		out, err := apt.CheckForUpdates()
 		if err != nil {
 			return err
 		}
-		fmt.Printf("\n%v\n", string(out))
+		// fmt.Printf("\n%v\n", string(out))
+		log.Printf("\n%v\n", string(out))
 	} else {
-		fmt.Printf("[apt] Ingoring Update due to last update < 24h\n")
+		// fmt.Printf("[apt] Ingoring Update due to last update < 24h\n")
+		log.Printf("[apt] Ingoring Update due to last update < 24h\n")
 	}
 
 	return err
@@ -38,7 +42,8 @@ func Update() error {
 // Packages takes a list of package names (slice of string) to install
 func Packages(names []string) error {
 	for _, name := range names {
-		fmt.Printf("[apt][%v][install] Installing ...\n", name)
+		// fmt.Printf("[apt][%v][install] Installing ...\n", name)
+		log.Printf("[apt][%v][install] Installing ...\n", name)
 		pkg := IPackage{
 			Name: name,
 		}
@@ -50,7 +55,8 @@ func Packages(names []string) error {
 		if err != nil {
 			return err
 		}
-		fmt.Printf("[apt][%v][install] Complete\n", name)
+		// fmt.Printf("[apt][%v][install] Complete\n", name)
+		log.Printf("[apt][%v][install] Complete\n", name)
 	}
 
 	return nil
@@ -58,7 +64,9 @@ func Packages(names []string) error {
 
 func (p IPackage) Install(notIf *bool) error {
 	if notIf != nil && !*notIf {
-		fmt.Printf("[%v][Install] Installing package\n", p.Name)
+		// fmt.Printf("[%v][Install] Installing package\n", p.Name)
+		// log.Printf("[%v][Install]\n", p.Name)
+		log.Printf("[%v][Install]\n", p.Name)
 		pkg := apt.Package{
 			Name: p.Name,
 		}
@@ -67,12 +75,15 @@ func (p IPackage) Install(notIf *bool) error {
 		if err != nil {
 			return err
 		}
-		fmt.Printf("\n%v\n", string(out))
+		// fmt.Printf("\n%v\n", string(out))
+		log.Printf("\n%v\n", string(out))
 
-		fmt.Printf("[%v][Install] Complete\n", p.Name)
+		// fmt.Printf("[%v][Install] Complete\n", p.Name)
+		log.Printf("[%v][Install] Complete\n", p.Name)
 		return err
 	} else {
-		fmt.Printf("[%v][Install] Ignore installation due to NotIf\n", p.Name)
+		// fmt.Printf("[%v][Install] Ignore installation due to NotIf\n", p.Name)
+		log.Printf("[%v][Install] Ignore installation due to NotIf\n", p.Name)
 	}
 
 	return nil

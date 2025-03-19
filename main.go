@@ -1,5 +1,10 @@
 package main
 
+import (
+	"github.com/julienlevasseur/goconfig/pkg/apt"
+	powerlineshell "github.com/julienlevasseur/goconfig/pkg/softwares/powerline-shell"
+)
+
 func main() {
 	// Install CNI plugins
 	//cni.Install("v1.1.1", "amd64")
@@ -146,7 +151,7 @@ func main() {
 
 	//////////
 
-	// apt.Update()
+	apt.Update()
 	// yamllintPkg := apt.IPackage{
 	// 	Name: "yamllint",
 	// }
@@ -170,5 +175,5 @@ func main() {
 
 	// helm.Install(false)
 
-	// powerlineshell.Install(new(bool))
+	powerlineshell.Install(new(bool))
 }

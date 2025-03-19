@@ -4,12 +4,39 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"strings"
 
 	"github.com/julienlevasseur/goconfig/pkg/notif"
+	"github.com/julienlevasseur/goconfig/pkg/user"
 )
+
+type FileOptions struct {
+	Owner *user.User
+	Mode  *os.FileMode
+}
+
+func manageFileOptions(path string, opts *FileOptions) error {
+	if opts != nil {
+		if opts.Owner != nil {
+			err := opts.Owner.ChownToUser(path)
+			if err != nil {
+				return err
+			}
+		}
+
+		if opts.Mode != nil {
+			err := os.Chmod(path, *opts.Mode)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
 
 func Append(path, content string, notIf *bool) error {
 	if notIf != nil && !*notIf {
@@ -30,7 +57,7 @@ func Append(path, content string, notIf *bool) error {
 	return nil
 }
 
-func Content(path, content string, notIf *bool) error {
+func Content(path, content string, notIf *bool, opts *FileOptions) error {
 	if notIf != nil && !*notIf {
 		f, err := os.OpenFile(path, os.O_TRUNC|os.O_CREATE|os.O_WRONLY, 0644)
 		if err != nil {
@@ -42,6 +69,8 @@ func Content(path, content string, notIf *bool) error {
 		if err != nil {
 			return err
 		}
+
+		manageFileOptions(path, opts)
 	} else {
 		notif.IgnoreDueToNotIf("File", "Content")
 	}
@@ -202,7 +231,8 @@ func ReplaceLine(path, match, content string) error {
 }
 
 func Template(target, content string, vars any) error {
-	fmt.Println("[File][Template] create template ", target)
+	// fmt.Println("[File][Template] create template ", target)
+	log.Println("[File][Template] create template ", target)
 	t, err := template.New(target).Parse(content)
 	if err != nil {
 		return err

@@ -1,7 +1,6 @@
 package command
 
 import (
-	"fmt"
 	"os/exec"
 )
 
@@ -17,7 +16,7 @@ func ExecWithOutput(command string, args []string) (string, error) {
 
 	out, err := cmd.Output()
 	if err != nil {
-		fmt.Println(cmd.Stdout)
+		// fmt.Println(cmd.Stdout)
 		return "", err
 	}
 

@@ -1,7 +1,7 @@
 package powerlineshell
 
 import (
-	"fmt"
+	"log"
 
 	homedir "github.com/julienlevasseur/go-homedir"
 	"github.com/julienlevasseur/goconfig/pkg/apt"
@@ -14,7 +14,8 @@ const name = "powerline_shell"
 
 func Install(notIf *bool) {
 	if notIf != nil && !*notIf {
-		fmt.Printf("\n[%v][Install]\n", name)
+		log.Printf("[%v][Install]\n", name)
+		// fmt.Printf("[%v][Install]\n", name)
 
 		powerlineFontsPkg := apt.IPackage{
 			Name: "fonts-powerline",
@@ -22,7 +23,8 @@ func Install(notIf *bool) {
 
 		err := powerlineFontsPkg.Install(file.Exists("/usr/share/fonts/opentype/PowerlineSymbols.otf"))
 		if err != nil {
-			fmt.Println(err)
+			// fmt.Println(err)
+			log.Fatal(err)
 		}
 
 		err = file.Download(
@@ -30,17 +32,20 @@ func Install(notIf *bool) {
 			"/usr/local/bin/powerline-go",
 		)
 		if err != nil {
-			fmt.Println(err)
+			// fmt.Println(err)
+			log.Fatal(err)
 		}
 
 		err = command.Exec("sudo", []string{"chmod", "+x", "/usr/local/bin/powerline-go"})
 		if err != nil {
-			fmt.Println(err)
+			// fmt.Println(err)
+			log.Fatal(err)
 		}
 
 		homePath, err := homedir.Dir()
 		if err != nil {
-			fmt.Println(err)
+			// fmt.Println(err)
+			log.Fatal(err)
 		}
 
 		bashrcPath := homePath + "/.bashrc"
@@ -50,7 +55,8 @@ func Install(notIf *bool) {
 			"function _update_ps1() {",
 		)
 		if err != nil {
-			fmt.Println(err)
+			// fmt.Println(err)
+			log.Fatal(err)
 		}
 
 		file.Append(
@@ -67,7 +73,8 @@ function _update_ps1() {
 			"PROMPT_COMMAND",
 		)
 		if err != nil {
-			fmt.Println(err)
+			// fmt.Println(err)
+			log.Fatal(err)
 		}
 
 		file.Append(
