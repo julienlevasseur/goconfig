@@ -2,6 +2,7 @@ package vscodium
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/julienlevasseur/goconfig/pkg/dpkg"
 	"github.com/julienlevasseur/goconfig/pkg/notif"
@@ -11,7 +12,7 @@ import (
 type VSCodium softwares.Software
 
 func (v *VSCodium) Install() error {
-	fmt.Printf("\n[%v][Install][Package]", v.Name)
+	log.Printf("\n[%v][Install][Package]", v.Name)
 
 	codium := dpkg.Dpkg{
 		Name: "codium",
@@ -26,6 +27,8 @@ func (v *VSCodium) Install() error {
 	if err != nil {
 		return err
 	}
+
+	log.Printf("[%v][Install][Installation complete]\n", v.Name)
 
 	return nil
 }

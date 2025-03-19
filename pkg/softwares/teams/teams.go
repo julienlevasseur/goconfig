@@ -2,6 +2,7 @@ package teams
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/julienlevasseur/goconfig/pkg/dpkg"
 	"github.com/julienlevasseur/goconfig/pkg/file"
@@ -13,7 +14,7 @@ import (
 type Teams softwares.Software
 
 func (t *Teams) Install() error {
-	fmt.Printf("\n[%v][Install][Package]", t.Name)
+	log.Printf("[%v][Install][Package]\n", t.Name)
 	teams := dpkg.Dpkg{
 		Name: "teams",
 		ArchiveURL: fmt.Sprintf(
@@ -28,7 +29,7 @@ func (t *Teams) Install() error {
 		return err
 	}
 
-	fmt.Printf("\n[%v][Install][Menu Entry]", t.Name)
+	log.Printf("[%v][Install][Menu Entry]\n", t.Name)
 
 	var homePath string
 	if t.Options != nil && t.Options.Username != nil {
@@ -56,7 +57,7 @@ Terminal=false
 		notif.FileExists(teamsDesktopFilePath),
 	)
 
-	fmt.Printf("\n[%v][Install][Installation complete]\n", t.Name)
+	log.Printf("[%v][Install][Installation complete]\n", t.Name)
 
 	return err
 }
