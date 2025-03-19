@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/julienlevasseur/goconfig/pkg/command"
 	"github.com/julienlevasseur/goconfig/pkg/dpkg"
 	"github.com/julienlevasseur/goconfig/pkg/notif"
 	"github.com/julienlevasseur/goconfig/pkg/softwares"
@@ -31,4 +32,14 @@ func (v *VSCodium) Install() error {
 	log.Printf("[%v][Install][Installation complete]\n", v.Name)
 
 	return nil
+}
+
+func InstallExtension(name string) error {
+	return command.Exec(
+		"codium",
+		[]string{
+			"--install-extension",
+			name,
+		},
+	)
 }

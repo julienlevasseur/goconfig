@@ -16,7 +16,6 @@ func ExecWithOutput(command string, args []string) (string, error) {
 
 	out, err := cmd.Output()
 	if err != nil {
-		// fmt.Println(cmd.Stdout)
 		return "", err
 	}
 
