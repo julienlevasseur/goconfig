@@ -36,7 +36,7 @@ func (v *VSCodium) Install() error {
 }
 
 func InstallExtension(name string, u *user.User) error {
-	return command.Exec(
+	output, err := command.ExecWithOutput(
 		"codium",
 		[]string{
 			"--install-extension",
@@ -46,4 +46,11 @@ func InstallExtension(name string, u *user.User) error {
 			User: u,
 		},
 	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Println(output)
+
+	return nil
 }

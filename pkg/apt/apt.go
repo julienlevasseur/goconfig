@@ -96,6 +96,7 @@ func (p IPackage) Installed() (*bool, error) {
 			"-c",
 			fmt.Sprintf("dpkg --list|grep %v", p.Name),
 		},
+		nil,
 	)
 	if output != "" {
 		t := true

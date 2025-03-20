@@ -43,6 +43,7 @@ func (d Dpkg) Install() error {
 				"-i",
 				downloadedFilePath,
 			},
+			nil,
 		)
 		if err != nil {
 			return err

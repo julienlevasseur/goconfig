@@ -61,6 +61,7 @@ func (psi *PrusaSlicerInstaller) Install(version, platform, arch string, notIf b
 					arch,
 				),
 			},
+			nil,
 		)
 		if err != nil {
 			panic(err)

@@ -33,6 +33,7 @@ func Install(arch, platform string, notIf ...bool) {
 				"minikube-linux-amd64",
 				"/usr/local/bin/minikube",
 			},
+			nil,
 		)
 		if err != nil {
 			fmt.Printf("[Error]: %q\n", err)

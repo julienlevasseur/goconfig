@@ -36,7 +36,15 @@ func Install(notIf *bool) {
 			log.Fatal(err)
 		}
 
-		err = command.Exec("sudo", []string{"chmod", "+x", "/usr/local/bin/powerline-go"})
+		err = command.Exec(
+			"sudo",
+			[]string{
+				"chmod",
+				"+x",
+				"/usr/local/bin/powerline-go",
+			},
+			nil,
+		)
 		if err != nil {
 			// fmt.Println(err)
 			log.Fatal(err)
