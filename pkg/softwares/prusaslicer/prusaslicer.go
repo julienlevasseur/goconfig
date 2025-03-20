@@ -48,20 +48,21 @@ func (psi *PrusaSlicerInstaller) Install(version, platform, arch string, notIf b
 		//		arch,
 		//	),
 		//)
-		command.Exec(
+
+		args := []string{
+			fmt.Sprintf(
+				"/tmp/PrusaSlicer-%v+%v-%v-GTK3-*.AppImage /opt/PrusaSlicer-%v+%v-%v-GTK3.AppImage",
+				version,
+				platform,
+				arch,
+				version,
+				platform,
+				arch,
+			),
+		}
+		err = command.Exec(
 			"mv",
-			[]string{
-				fmt.Sprintf(
-					"/tmp/PrusaSlicer-%v+%v-%v-GTK3-*.AppImage /opt/PrusaSlicer-%v+%v-%v-GTK3.AppImage",
-					version,
-					platform,
-					arch,
-					version,
-					platform,
-					arch,
-				),
-			},
-			nil,
+			&args,
 		)
 		if err != nil {
 			panic(err)

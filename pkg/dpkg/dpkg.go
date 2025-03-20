@@ -37,13 +37,14 @@ func (d Dpkg) Install() error {
 		}
 
 		fmt.Printf("\n[%v][Install package]", d.Name)
+
+		args := []string{
+			"-i",
+			downloadedFilePath,
+		}
 		err = command.Exec(
 			"dpkg",
-			[]string{
-				"-i",
-				downloadedFilePath,
-			},
-			nil,
+			&args,
 		)
 		if err != nil {
 			return err

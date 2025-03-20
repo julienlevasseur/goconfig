@@ -35,22 +35,20 @@ func (v *VSCodium) Install() error {
 	return nil
 }
 
-func InstallExtension(name string, u *user.User) error {
-	output, err := command.ExecWithOutput(
+func InstallExtension(name string, u *user.User) (string, error) {
+	args := []string{
+		"--install-extension",
+		name,
+	}
+
+	output, err := command.ExecAs(
+		u,
 		"codium",
-		[]string{
-			"--install-extension",
-			name,
-		},
-		&command.CommandOptions{
-			User: u,
-		},
+		&args,
 	)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Println(output)
-
-	return nil
+	return output, nil
 }

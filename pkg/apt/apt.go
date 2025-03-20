@@ -90,13 +90,13 @@ func (p IPackage) Install(notIf *bool) error {
 }
 
 func (p IPackage) Installed() (*bool, error) {
+	args := []string{
+		"-c",
+		fmt.Sprintf("dpkg --list|grep %v", p.Name),
+	}
 	output, err := command.ExecWithOutput(
 		"bash",
-		[]string{
-			"-c",
-			fmt.Sprintf("dpkg --list|grep %v", p.Name),
-		},
-		nil,
+		&args,
 	)
 	if output != "" {
 		t := true

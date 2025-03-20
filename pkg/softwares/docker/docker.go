@@ -27,13 +27,14 @@ func Install(arch, platform string, notIf ...bool) {
 		}
 
 		fmt.Printf("[%v][Install] Execute installation binary\n", name)
+
+		args := []string{
+			"minikube-linux-amd64",
+			"/usr/local/bin/minikube",
+		}
 		err = command.Exec(
 			"install",
-			[]string{
-				"minikube-linux-amd64",
-				"/usr/local/bin/minikube",
-			},
-			nil,
+			&args,
 		)
 		if err != nil {
 			fmt.Printf("[Error]: %q\n", err)
