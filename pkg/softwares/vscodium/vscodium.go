@@ -8,6 +8,7 @@ import (
 	"github.com/julienlevasseur/goconfig/pkg/dpkg"
 	"github.com/julienlevasseur/goconfig/pkg/notif"
 	"github.com/julienlevasseur/goconfig/pkg/softwares"
+	"github.com/julienlevasseur/goconfig/pkg/user"
 )
 
 type VSCodium softwares.Software
@@ -34,12 +35,15 @@ func (v *VSCodium) Install() error {
 	return nil
 }
 
-func InstallExtension(name string) error {
+func InstallExtension(name string, u *user.User) error {
 	return command.Exec(
 		"codium",
 		[]string{
 			"--install-extension",
 			name,
+		},
+		&command.CommandOptions{
+			User: u,
 		},
 	)
 }
