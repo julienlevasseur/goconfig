@@ -10,8 +10,6 @@ type User struct {
 	Username string
 }
 
-var u User
-
 func (u *User) HomeDir() (string, error) {
 	if u.Username != "" {
 		us, err := user.Lookup(u.Username)

@@ -4,35 +4,24 @@ import (
 	"fmt"
 
 	"github.com/julienlevasseur/goconfig/pkg/command"
-	"github.com/julienlevasseur/goconfig/pkg/file"
 )
 
-const name = "minikuke"
+const name = "docker"
 
-// Install Minikube
+// Install Dcoker
 // arch: host system architecture (amd64)
 // platform: host system platform (linux)
 func Install(arch, platform string, notIf ...bool) {
 	if !notIf[0] {
-		fmt.Printf("\n[%v][Install] Download installation binary\n", name)
-		localFileName := fmt.Sprintf("minikube-%v-%v", platform, arch)
-		URL := fmt.Sprintf("https://storage.googleapis.com/minikube/releases/latest/minikube-%v-%v", platform, arch)
-
-		err := file.Download(
-			URL,
-			localFileName,
-		)
-		if err != nil {
-			fmt.Printf("[Error]: %q\n", err)
-		}
-
-		fmt.Printf("[%v][Install] Execute installation binary\n", name)
+		fmt.Printf("[%v][Install] Add Docker's GPGP key\n", name)
 
 		args := []string{
-			"minikube-linux-amd64",
-			"/usr/local/bin/minikube",
+			"-m",
+			"0755",
+			"-d",
+			"/etc/apt/keyrings",
 		}
-		err = command.Exec(
+		err := command.Exec(
 			"install",
 			&args,
 		)
@@ -40,11 +29,48 @@ func Install(arch, platform string, notIf ...bool) {
 			fmt.Printf("[Error]: %q\n", err)
 		}
 
-		fmt.Printf("\n[%v][Install] Delete installation binary\n", name)
-		err = file.Delete(localFileName)
-		if err != nil {
-			fmt.Printf("\n[Error]: %q\n", err)
+		args = []string{
+			"-fsSL",
+			"https://download.docker.com/linux/ubuntu/gpg",
+			"-o",
+			"/etc/apt/keyrings/docker.asc",
 		}
+		err = command.Exec(
+			"curl",
+			&args,
+		)
+		if err != nil {
+			fmt.Printf("[Error]: %q\n", err)
+		}
+
+		args = []string{
+			"a+r",
+			"/etc/apt/keyrings/docker.asc",
+		}
+		err = command.Exec(
+			"chmod",
+			&args,
+		)
+		if err != nil {
+			fmt.Printf("[Error]: %q\n", err)
+		}
+
+		fmt.Printf("\n[%v][Install] Add Docker's repository to APT sources\n", name)
+		//echo \
+		//  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+		//  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+		//  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+		// 		err = file.Append(
+		// 			"/etc/apt/sources.list.d/docker.list",
+		// 			`
+		// deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+		//   $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable"
+		// `,
+		// 		)
+		// 		if err != nil {
+		// 			fmt.Printf("\n[Error]: %q\n", err)
+		// 		}
 
 		fmt.Printf("\n[%v][Install] Complete\n", name)
 	} else {

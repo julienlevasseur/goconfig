@@ -1,0 +1,6 @@
+{{ range .Hosts }}Host {{ .Host}}
+    {{ if .Hostname}}Hostname {{ .Hostname}}{{end}}
+    {{ if .User}}User {{ .User}}{{end}}
+    {{ if .IdentityFile}}IdentityFile {{ .IdentityFile}}{{end}}
+
+{{end}}

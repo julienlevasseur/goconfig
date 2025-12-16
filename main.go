@@ -1,8 +1,13 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/julienlevasseur/goconfig/pkg/apt"
-	powerlineshell "github.com/julienlevasseur/goconfig/pkg/softwares/powerline-shell"
+	"github.com/julienlevasseur/goconfig/pkg/file"
+	minioClient "github.com/julienlevasseur/goconfig/pkg/softwares/minio-client"
+	"github.com/julienlevasseur/goconfig/pkg/ssh"
+	// powerlineshell "github.com/julienlevasseur/goconfig/pkg/softwares/powerline-shell"
 )
 
 func main() {
@@ -152,6 +157,72 @@ func main() {
 	//////////
 
 	apt.Update()
+	// installDefaultPackages()
+
+	var pkgs map[string]string //name:bin
+	pkgs = map[string]string{
+		"ardour":          "/usr/bin/ardour",
+		"audacity":        "/usr/bin/audacity",
+		"ca-certificates": "/etc/ca-certificates",
+		"curl":            "/usr/bin/curl",
+		"git":             "/usr/bin/git",
+		"jq":              "/usr/bin/jq",
+		"kazam":           "/usr/bin/kazam",
+		"mixxx":           "/usr/bin/mixxx",
+		"npm":             "/usr/bin/npm",
+		"net-tools":       "/usr/bin/netstat",
+		"terminator":      "/usr/bin/terminator",
+		"vim":             "/usr/bin/vim",
+		"vlc":             "/usr/bin/vlc",
+		"wireshark":       "/usr/bin/wireshark",
+	}
+
+	for name, bin := range pkgs {
+		pkg := apt.IPackage{
+			Name: name,
+		}
+
+		err := pkg.Install(file.Exists(bin))
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
+	minioClient.Install(
+		"20251017061741.0.0",
+		"amd64",
+		"linux",
+		*file.Exists("/usr/bin/local/mc"),
+	)
+
+	var sshCfg = ssh.Config{
+		Hosts: []ssh.Host{
+			{
+				Host:         "source.smiproject.co",
+				Hostname:     "source.smiproject.co",
+				User:         "julien.levasseur",
+				IdentityFile: "~/.ssh/id_ed25519",
+			},
+			{
+				Host:         "pcs-dev",
+				Hostname:     "161.35.100.85",
+				User:         "smi",
+				IdentityFile: "~/.ssh/pcs-dev-nyc1-01",
+			},
+			{
+				Host:         "pcs-prod",
+				Hostname:     "104.131.44.17",
+				User:         "smi",
+				IdentityFile: "~/.ssh/id_ed25519",
+			},
+		},
+		User: "julien",
+	}
+	err := ssh.NewConfig(sshCfg)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	// yamllintPkg := apt.IPackage{
 	// 	Name: "yamllint",
 	// }
@@ -175,5 +246,5 @@ func main() {
 
 	// helm.Install(false)
 
-	powerlineshell.Install(new(bool))
+	// powerlineshell.Install(new(bool))
 }
