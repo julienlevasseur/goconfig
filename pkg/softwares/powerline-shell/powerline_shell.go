@@ -12,8 +12,8 @@ import (
 
 const name = "powerline_shell"
 
-func Install(notIf *bool) {
-	if notIf != nil && !*notIf {
+func Install(notIf bool) {
+	if !notIf {
 		log.Printf("[%v][Install]\n", name)
 		// fmt.Printf("[%v][Install]\n", name)
 
@@ -73,7 +73,7 @@ func Install(notIf *bool) {
 function _update_ps1() {
   PS1="$(/usr/local/bin/powerline-go -error $? -jobs $(jobs -p|wc -l) -theme default -mode compatible -modules time,host,cwd,git,venv,terraform-workspace,kube,profiler,root,newline)"
 }`,
-			&updatePS1FuncLine,
+			updatePS1FuncLine,
 		)
 
 		promptCmdLine, err := file.LineIsPresent(
@@ -91,7 +91,7 @@ function _update_ps1() {
 if [ "$TERM" != "linux" ] && [ -f "/usr/local/bin/powerline-go" ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi`,
-			&promptCmdLine,
+			promptCmdLine,
 		)
 
 	} else {

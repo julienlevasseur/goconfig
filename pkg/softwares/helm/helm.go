@@ -23,7 +23,7 @@ func Install(notIf ...bool) {
 			&args,
 		)
 
-		apt.Update()
+		apt.Update(false)
 		apt.Packages([]string{"apt-transport-https"})
 
 		args = []string{
@@ -35,7 +35,7 @@ func Install(notIf ...bool) {
 			&args,
 		)
 
-		apt.Update()
+		apt.Update(false)
 		apt.Packages([]string{"helm"})
 	} else {
 		fmt.Printf("[%v][Install] Ignore Installation due to NotIf\n", name)

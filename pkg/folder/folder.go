@@ -6,8 +6,8 @@ import (
 	"os"
 )
 
-func Create(path string, notIf *bool) error {
-	if notIf != nil && !*notIf {
+func Create(path string, notIf bool) error {
+	if !notIf {
 		if _, err := os.Stat(path); errors.Is(err, os.ErrNotExist) {
 			err := os.Mkdir(path, os.ModeDir)
 			if err != nil {
@@ -21,8 +21,8 @@ func Create(path string, notIf *bool) error {
 	return nil
 }
 
-func CreateAll(path string, notIf *bool) error {
-	if notIf != nil && !*notIf {
+func CreateAll(path string, notIf bool) error {
+	if !notIf {
 		if _, err := os.Stat(path); errors.Is(err, os.ErrNotExist) {
 			err := os.MkdirAll(path, os.ModeDir)
 			if err != nil {

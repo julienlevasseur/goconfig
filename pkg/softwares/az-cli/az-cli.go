@@ -39,7 +39,7 @@ func Install(notIf ...bool) {
 		// fmt.Printf("[%v][Install] Delete archive\n", name)
 		// //file.Delete(localFileName)
 
-		err := apt.Update()
+		err := apt.Update(false)
 		if err != nil {
 			panic(err)
 		}

@@ -16,13 +16,13 @@ type IPackage struct {
 
 type Package apt.Package
 
-func Update() error {
+func Update(force bool) error {
 	ok, err := lastUpdateInLast24h()
 	if err != nil {
 		return err
 	}
 
-	if !ok {
+	if !ok || force {
 		// fmt.Printf("[apt] Update package index files\n")
 		log.Printf("[apt] Update package index files\n")
 		out, err := apt.CheckForUpdates()
@@ -62,8 +62,8 @@ func Packages(names []string) error {
 	return nil
 }
 
-func (p IPackage) Install(notIf *bool) error {
-	if notIf != nil && !*notIf {
+func (p IPackage) Install(notIf bool) error {
+	if !notIf {
 		// fmt.Printf("[%v][Install] Installing package\n", p.Name)
 		// log.Printf("[%v][Install]\n", p.Name)
 		log.Printf("[%v][Install]\n", p.Name)
@@ -89,7 +89,7 @@ func (p IPackage) Install(notIf *bool) error {
 	return nil
 }
 
-func (p IPackage) Installed() (*bool, error) {
+func (p IPackage) Installed() (bool, error) {
 	args := []string{
 		"-c",
 		fmt.Sprintf("dpkg --list|grep %v", p.Name),
@@ -100,11 +100,11 @@ func (p IPackage) Installed() (*bool, error) {
 	)
 	if output != "" {
 		t := true
-		return &t, err
+		return t, err
 	}
 
 	f := false
-	return &f, err
+	return f, err
 }
 
 func getLastUpdate() (time.Time, error) {

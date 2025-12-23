@@ -38,8 +38,8 @@ func manageFileOptions(path string, opts *FileOptions) error {
 	return nil
 }
 
-func Append(path, content string, notIf *bool) error {
-	if notIf != nil && !*notIf {
+func Append(path, content string, notIf bool) error {
+	if !notIf {
 		f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 		if err != nil {
 			return err
@@ -57,8 +57,8 @@ func Append(path, content string, notIf *bool) error {
 	return nil
 }
 
-func Content(path, content string, notIf *bool, opts *FileOptions) error {
-	if notIf != nil && !*notIf {
+func Content(path, content string, notIf bool, opts *FileOptions) error {
+	if !notIf {
 		f, err := os.OpenFile(path, os.O_TRUNC|os.O_CREATE|os.O_WRONLY, 0644)
 		if err != nil {
 			return err
@@ -130,21 +130,21 @@ func Download(URL, fileDest string) error {
 	return nil
 }
 
-func Exists(path string) *bool {
+func Exists(path string) bool {
 	_, err := os.Stat(path)
 	if os.IsNotExist(err) {
 		f := false
-		return &f
+		return f
 	} else {
 		t := true
-		return &t
+		return t
 	}
 }
 
 func LineIsPresent(path, match string) (bool, error) {
 	fileExists := Exists(path)
 
-	if *fileExists {
+	if fileExists {
 		f, err := os.ReadFile(path)
 		if err != nil {
 			return false, err
